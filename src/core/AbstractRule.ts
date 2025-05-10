@@ -38,11 +38,11 @@ abstract class AbstractRule implements RuleInterface {
     message: string,
     params: Record<string, any>
   ): string {
-    for (const [key, value] of Object.entries(params)) {
-      if (typeof value !== "object") {
-        message = message.replace(new RegExp(`{${key}}`, "g"), String(value));
-      }
-    }
+    // for (const [key, value] of Object.entries(params)) {
+    //   if (typeof value !== "object") {
+    //     message = message.replace(new RegExp(`{${key}}`, "g"), String(value));
+    //   }
+    // }
     return message;
   }
 
