@@ -1,0 +1,1 @@
+{"version":3,"file":"Email.js","sourceRoot":"","sources":["../../src/rules/Email.ts"],"names":[],"mappings":";;;AAEA,MAAa,QAAQ;IACnB,QAAQ,CAAC,KAAa,EAAE,KAAU,EAAE,MAAY;QAC9C,OAAO,KAAK,KAAK,IAAI,IAAI,KAAK,KAAK,SAAS,IAAI,KAAK,KAAK,EAAE,CAAC;IAC/D,CAAC;IAED,OAAO,CAAC,KAAa;QACnB,OAAO,eAAe,KAAK,yBAAyB,CAAC;IACvD,CAAC;CACF;AARD,4BAQC"}

@@ -1,4 +1,5 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 class AbstractRule {
     shouldValidate(value, params = {}) {
         const isEmpty = value === null ||
@@ -25,4 +26,5 @@ class AbstractRule {
         return this.defaultErrorMessage(displayName, params);
     }
 }
+exports.default = AbstractRule;
 //# sourceMappingURL=AbstractRule.js.map
