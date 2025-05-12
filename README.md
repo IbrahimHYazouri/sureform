@@ -11,4 +11,116 @@
 - Works seamlessly with plain JavaScript or Vue.js
 - Easily extendable and testable
 
-## 📦 Installation
+## ✅ Available Rules
+
+### 1. `required`
+Checks if the value is present (not `null`, `undefined`, or empty string).
+
+```ts
+{ name: ["required"] }
+```
+
+---
+
+### 2. `string`
+Ensures the value is a string.
+
+```ts
+{ username: ["required", "string"] }
+```
+
+---
+
+### 3. `numeric`
+Ensures the value is a number.
+
+```ts
+{ age: ["required", "numeric"] }
+```
+
+---
+
+### 4. `boolean`
+Ensures the value is a boolean (`true` or `false`).
+
+```ts
+{ isActive: ["required", "boolean"] }
+```
+
+---
+
+### 5. `array`
+Ensures the value is an array.
+
+```ts
+{ tags: ["required", "array"] }
+```
+
+---
+
+### 6. `email`
+Validates that the value is a valid email address.
+
+```ts
+{ email: ["required", "email"] }
+```
+
+---
+
+### 7. `url`
+Validates that the value is a valid URL.
+
+```ts
+{ website: ["url"] }
+```
+
+---
+
+### 8. `matches:pattern`
+Checks if the value matches a regular expression pattern.
+
+```ts
+{ username: ["matches:^[a-zA-Z0-9_]+$"] }
+```
+
+---
+
+### 9. `min:value`
+For strings, arrays, and numbers: enforces minimum length or value.
+
+```ts
+{ password: ["required", "min:6"] }
+{ age: ["numeric", "min:18"] }
+```
+
+---
+
+### 10. `max:value`
+For strings, arrays, and numbers: enforces maximum length or value.
+
+```ts
+{ username: ["required", "max:15"] }
+{ quantity: ["numeric", "max:100"] }
+```
+
+---
+
+### 11. `between:min,max`
+Checks if a number or string length falls between two values (inclusive).
+
+```ts
+{ age: ["required", "between:18,60"] }
+{ password: ["between:6,12"] }
+```
+
+---
+
+## 🔍 Notes
+
+- Each rule can accept arguments using `:` and `,` delimiters.
+- Arguments are automatically parsed and passed to rule methods.
+
+---
+
+Made with ❤️ for developers.
+
