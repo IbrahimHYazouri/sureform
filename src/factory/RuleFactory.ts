@@ -1,6 +1,14 @@
 import ValidationRule from "../core/ValidationRule";
+import { ArrayRule } from "../rules/ArrayRule";
+import { BetweenRule } from "../rules/BetweenRule";
+import { Boolean } from "../rules/Boolean";
+import { Email } from "../rules/Email";
+import { MaxRule } from "../rules/MaxRule";
 import { MinRule } from "../rules/MinRule";
+import { Numeric } from "../rules/Numeric";
 import { Required } from "../rules/Required";
+import { StringRule } from "../rules/StringRule";
+import { Url } from "../rules/Url";
 
 type RuleCreator = (args?: any) => ValidationRule;
 
@@ -25,6 +33,14 @@ export default class RuleFactory {
   static initializeDefaults(): void {
     RuleFactory.register("required", () => new Required());
     RuleFactory.register("min", () => new MinRule());
+    RuleFactory.register("max", () => new MaxRule());
+    RuleFactory.register("between", () => new BetweenRule());
+    RuleFactory.register("email", () => new Email());
+    RuleFactory.register("url", () => new Url());
+    RuleFactory.register("array", () => new ArrayRule());
+    RuleFactory.register("numeric", () => new Numeric());
+    RuleFactory.register("string", () => new StringRule());
+    RuleFactory.register("boolean", () => new Boolean());
   }
 }
 
