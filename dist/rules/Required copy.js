@@ -2,6 +2,9 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Required = void 0;
 class Required {
+    constructor() {
+        this.name = 'required';
+    }
     validate(field, value, params) {
         return value !== null && value !== undefined && value !== "";
     }
