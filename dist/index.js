@@ -2,10 +2,10 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const Validator_1 = require("./core/Validator");
 const data = {
-    field: "ba",
+    field: 2,
 };
 const rules = {
-    field: ["numeric"],
+    field: ["between:3,7"],
 };
 const validator = new Validator_1.Validator(data, rules);
 const result = validator.validate();
