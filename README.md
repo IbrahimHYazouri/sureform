@@ -76,16 +76,7 @@ Validates that the value is a valid URL.
 
 ---
 
-### 8. `matches:pattern`
-Checks if the value matches a regular expression pattern.
-
-```ts
-{ username: ["matches:^[a-zA-Z0-9_]+$"] }
-```
-
----
-
-### 9. `min:value`
+### 8. `min:value`
 For strings, arrays, and numbers: enforces minimum length or value.
 
 ```ts
@@ -95,7 +86,7 @@ For strings, arrays, and numbers: enforces minimum length or value.
 
 ---
 
-### 10. `max:value`
+### 9. `max:value`
 For strings, arrays, and numbers: enforces maximum length or value.
 
 ```ts
@@ -105,7 +96,7 @@ For strings, arrays, and numbers: enforces maximum length or value.
 
 ---
 
-### 11. `between:min,max`
+### 10. `between:min,max`
 Checks if a number or string length falls between two values (inclusive).
 
 ```ts
