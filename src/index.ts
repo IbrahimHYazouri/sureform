@@ -1,11 +1,11 @@
 import { Validator } from "./core/Validator";
 
 const data = {
-  name: "hH",
+  field: "ba",
 };
 
 const rules = {
-  name: ["required", "min:3"],
+  field: ["numeric"],
 };
 
 const validator = new Validator(data, rules);
