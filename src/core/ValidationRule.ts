@@ -7,7 +7,7 @@ export default interface ValidationRule {
    * @param args - optional parameters for validation
    * @returns true if valid, false otherwise
    */
-  validate(value: any, args?: any): boolean;
+  validate(value: any, ...args: any): boolean;
 
   /**
    * Generate an error message when validation fails.
@@ -15,5 +15,5 @@ export default interface ValidationRule {
    * @param args - optional parameters for message interpolation
    * @returns string error message
    */
-  message(field: string, args?: any): string;
+  message(field: string, ...args: any): string;
 }

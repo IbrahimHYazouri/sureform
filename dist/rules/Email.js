@@ -1,13 +1,19 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Required = void 0;
-class Required {
-    validate(field, value, params) {
-        return value !== null && value !== undefined && value !== "";
+exports.Email = void 0;
+class Email {
+    constructor() {
+        this.name = "email";
+        this.emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    }
+    validate(value) {
+        if (value === null || value === "")
+            return false;
+        return typeof value === "string" && this.emailRegex.test(value);
     }
     message(field) {
-        return `This filed [${field}] must be a valid email`;
+        return `${field} must be a valid email address.`;
     }
 }
-exports.Required = Required;
+exports.Email = Email;
 //# sourceMappingURL=Email.js.map

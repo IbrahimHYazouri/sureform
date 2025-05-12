@@ -1,9 +1,9 @@
 import ValidationRule from "../core/ValidationRule";
 
 export class Required implements ValidationRule {
-  name = 'required';
+  name = "required";
 
-  validate(field: string, value: any, params?: any): boolean {
+  validate(value: any): boolean {
     return value !== null && value !== undefined && value !== "";
   }
 
