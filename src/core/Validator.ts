@@ -76,7 +76,7 @@ export class Validator {
       if (!ruleInstance) {
         throw new Error(`Rule "${name}" is not registered.`);
       }
-      return { rule: ruleInstance, args: args };
+      return { rule: ruleInstance, args: argArray };
     }
 
     return { rule: rule as ValidationRule, args: [] };
