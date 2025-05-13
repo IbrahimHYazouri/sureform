@@ -16,6 +16,10 @@ export type Schema = {
   )[];
 };
 
+export interface Messages {
+  [key: string]: string;
+}
+
 export interface ValidationResult {
   valid: boolean;
   errors: Record<string, string[]>;
@@ -24,11 +28,13 @@ export interface ValidationResult {
 export class Validator {
   private data: Record<string, any>;
   private schema: Schema;
+  private messages: Messages = {};
   private errors: Record<string, string[]> = {};
 
-  constructor(data: Record<string, any>, rules: Schema) {
+  constructor(data: Record<string, any>, rules: Schema, messages?: Messages) {
     this.data = data;
     this.schema = rules;
+    this.messages = messages ? messages : {};
   }
 
   validate(): ValidationResult {
@@ -49,7 +55,14 @@ export class Validator {
         const valid = rule.validate(value, ...args);
         if (!valid) {
           const key = `${field}.${rule.name}`;
-          this.addError(field, rule.message(field, ...args));
+          const globalRuleKey = rule.name;
+
+          const msg =
+            this.messages[key] ??
+            this.messages[globalRuleKey] ??
+            rule.message(field, ...args);
+
+          this.addError(field, msg);
         }
       }
     }
