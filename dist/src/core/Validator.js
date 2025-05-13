@@ -6,12 +6,15 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Validator = void 0;
 const RuleFactory_1 = __importDefault(require("../factory/RuleFactory"));
 class Validator {
-    constructor(data, rules) {
+    constructor(data, rules, messages) {
+        this.messages = {};
         this.errors = {};
         this.data = data;
         this.schema = rules;
+        this.messages = messages ? messages : {};
     }
     validate() {
+        var _a, _b;
         this.errors = {};
         for (const field in this.schema) {
             const defs = this.schema[field];
@@ -25,7 +28,9 @@ class Validator {
                 const valid = rule.validate(value, ...args);
                 if (!valid) {
                     const key = `${field}.${rule.name}`;
-                    this.addError(field, rule.message(field, ...args));
+                    const globalRuleKey = rule.name;
+                    const msg = (_b = (_a = this.messages[key]) !== null && _a !== void 0 ? _a : this.messages[globalRuleKey]) !== null && _b !== void 0 ? _b : rule.message(field, ...args);
+                    this.addError(field, msg);
                 }
             }
         }
