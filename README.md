@@ -106,12 +106,117 @@ Checks if a number or string length falls between two values (inclusive).
 
 ---
 
+Custom error messages are a powerful feature in ValidTS that help improve user experience by delivering clearer and more contextual feedback. By following the override hierarchy, you can finely tune your validation system.
+
 ## 🔍 Notes
 
 - Each rule can accept arguments using `:` and `,` delimiters.
 - Arguments are automatically parsed and passed to rule methods.
 
 ---
+
+
+## Custom Error Messages in ValidTS
+
+### Overview
+
+When using the `Validator` class, you can pass a third argument: a `messages` object. This object lets you define custom error messages:
+
+```ts
+new Validator(data, schema, messages);
+```
+
+### Syntax
+
+The `messages` object supports two types of keys:
+
+| Key Format         | Description                                      |
+|--------------------|--------------------------------------------------|
+| `field.rule`       | Specific override for a rule on a particular field |
+| `rule`             | General override for a specific rule             |
+
+### Examples
+
+#### Field-Specific Rule Message
+
+```ts
+const messages = {
+  "email.required": "We need your email address."
+};
+```
+
+This will override the default `required` error message **only** for the `email` field.
+
+#### Global Rule Message
+
+```ts
+const messages = {
+  "required": ":field is mandatory."
+};
+```
+
+This overrides the `required` message for **all** fields—unless a more specific field-rule message is provided.
+
+#### Default Rule Message Fallback
+
+If no message is found in the `messages` object, the default message from the rule is used.
+
+---
+
+### Priority
+
+When resolving the message to show, the following priority is used:
+
+1. `messages["field.rule"]` – most specific
+2. `messages["rule"]` – rule-wide override
+3. `Rule.defaultMessage(field)` – built-in fallback
+
+#### Example
+
+```ts
+const data = {
+  name: "",
+  email: "not-an-email"
+};
+
+const schema = {
+  name: ["required"],
+  email: ["required", "email"]
+};
+
+const messages = {
+  "name.required": "Please provide your name.",
+  "email": "The value for email is not valid."
+};
+
+const validator = new Validator(data, schema, messages);
+const result = validator.validate();
+
+console.log(result.errors);
+```
+
+Output:
+
+```json
+{
+  "name": ["Please provide your name."],
+  "email": ["The value for email is not valid."]
+}
+```
+
+---
+
+### Best Practices
+
+- Use `:field` in your messages to interpolate the field name dynamically.
+- Keep your messages consistent in tone and format.
+- Use `field.rule` when you need more granular control over user experience.
+
+---
+
+### Conclusion
+
+Custom error messages are a powerful feature in ValidTS that help improve user experience by delivering clearer and more contextual feedback. By following the override hierarchy, you can finely tune your validation system.
 
 Made with ❤️ for developers.
 
