@@ -20,6 +20,10 @@ export interface Messages {
   [key: string]: string;
 }
 
+export interface Fields {
+  [key: string]: string;
+}
+
 export interface ValidationResult {
   valid: boolean;
   errors: Record<string, string[]>;
@@ -29,12 +33,19 @@ export class Validator {
   private data: Record<string, any>;
   private schema: Schema;
   private messages: Messages = {};
+  private fields: Fields = {};
   private errors: Record<string, string[]> = {};
 
-  constructor(data: Record<string, any>, rules: Schema, messages?: Messages) {
+  constructor(
+    data: Record<string, any>,
+    rules: Schema,
+    messages?: Messages,
+    fields?: Fields
+  ) {
     this.data = data;
     this.schema = rules;
     this.messages = messages ? messages : {};
+    this.fields = fields ? fields : {};
   }
 
   validate(): ValidationResult {
@@ -46,12 +57,7 @@ export class Validator {
 
       for (const def of defs) {
         const { rule, args } = this.parseRule(def);
-        if (
-          rule.name !== "required" &&
-          (value === null || value === undefined || value === "")
-        ) {
-          continue;
-        }
+
         const valid = rule.validate(value, ...args);
         if (!valid) {
           const key = `${field}.${rule.name}`;
@@ -60,7 +66,7 @@ export class Validator {
           const msg =
             this.messages[key] ??
             this.messages[globalRuleKey] ??
-            rule.message(field, ...args);
+            rule.message(this.fields[field] ?? field, ...args);
 
           this.addError(field, msg);
         }

@@ -18,7 +18,7 @@ describe("Validator integration", () => {
         agree: ["boolean"],
         password: ["required", "min:6"],
     };
-    it("fails on multiple rule violations", () => {
+    it("fails on multiple rule violations with default messages", () => {
         const v = new Validator_1.Validator(data, schema);
         const result = v.validate();
         expect(result.valid).toBe(false);
@@ -30,6 +30,27 @@ describe("Validator integration", () => {
         const v2 = new Validator_1.Validator(fixed, schema);
         const r2 = v2.validate();
         expect(r2.valid).toBe(true);
+    });
+    it("uses rule-specific custom message when available", () => {
+        const messages = {
+            "name.required": "Please enter your full name",
+            "age.min": "You are too young!",
+        };
+        const v = new Validator_1.Validator(data, schema, messages);
+        const result = v.validate();
+        expect(result.valid).toBe(false);
+        expect(result.errors.name).toContain("Please enter your full name");
+        expect(result.errors.age).toContain("You are too young!");
+    });
+    it("falls back to default rule message if no override provided", () => {
+        const messages = {
+            "age.min": "You must be older.",
+        };
+        const v = new Validator_1.Validator(data, schema, messages);
+        const result = v.validate();
+        expect(result.valid).toBe(false);
+        expect(result.errors.name).toContain("This filed [name] is required");
+        expect(result.errors.age).toContain("You must be older.");
     });
 });
 //# sourceMappingURL=ValidatorRulesIntegration.test.js.map

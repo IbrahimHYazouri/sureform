@@ -1,6 +1,6 @@
-import ValidationRule from "../core/ValidationRule";
+import { AbstractRule } from "../core/AbstractRule";
 
-export class Email implements ValidationRule {
+export class Email extends AbstractRule {
   name = "email";
 
   private emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -12,6 +12,6 @@ export class Email implements ValidationRule {
   }
 
   message(field: string): string {
-    return `${field} must be a valid email address.`;
+    return `${this.ucfirst(field)} must be a valid email address.`;
   }
 }

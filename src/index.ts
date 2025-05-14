@@ -7,14 +7,13 @@ const data = {
 
 const schema = {
   name: ["required"],
-  email: ["required", "email"],
+  email: ["email"],
 };
 
-const messages = {
-  "name.required": "Hey, your name is required",
-  required: "Please fill this field",
+const fields = {
+  name: "Full Name",
 };
 
-const v = new Validator(data, schema, messages);
+const v = new Validator(data, schema, {}, fields);
 const r = v.validate();
 console.log(r);

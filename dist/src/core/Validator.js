@@ -6,30 +6,28 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Validator = void 0;
 const RuleFactory_1 = __importDefault(require("../factory/RuleFactory"));
 class Validator {
-    constructor(data, rules, messages) {
+    constructor(data, rules, messages, fields) {
         this.messages = {};
+        this.fields = {};
         this.errors = {};
         this.data = data;
         this.schema = rules;
         this.messages = messages ? messages : {};
+        this.fields = fields ? fields : {};
     }
     validate() {
-        var _a, _b;
+        var _a, _b, _c;
         this.errors = {};
         for (const field in this.schema) {
             const defs = this.schema[field];
             const value = this.data[field];
             for (const def of defs) {
                 const { rule, args } = this.parseRule(def);
-                if (rule.name !== "required" &&
-                    (value === null || value === undefined || value === "")) {
-                    continue;
-                }
                 const valid = rule.validate(value, ...args);
                 if (!valid) {
                     const key = `${field}.${rule.name}`;
                     const globalRuleKey = rule.name;
-                    const msg = (_b = (_a = this.messages[key]) !== null && _a !== void 0 ? _a : this.messages[globalRuleKey]) !== null && _b !== void 0 ? _b : rule.message(field, ...args);
+                    const msg = (_b = (_a = this.messages[key]) !== null && _a !== void 0 ? _a : this.messages[globalRuleKey]) !== null && _b !== void 0 ? _b : rule.message((_c = this.fields[field]) !== null && _c !== void 0 ? _c : field, ...args);
                     this.addError(field, msg);
                 }
             }
