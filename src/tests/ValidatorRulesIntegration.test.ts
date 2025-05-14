@@ -60,4 +60,27 @@ describe("Validator integration", () => {
     expect(result.errors.name).toContain("This filed [name] is required");
     expect(result.errors.age).toContain("You must be older.");
   });
+
+  const fields = {
+    name: "Full Name",
+    email: "Email Address",
+  };
+
+  it("uses custom field names in default error messages", () => {
+    data.email = "invalid email";
+    const validator = new Validator(data, schema, {}, fields);
+    const result = validator.validate();
+
+    expect(result.valid).toBe(false);
+    expect(result.errors.name[0]).toContain("Full Name"); // instead of just 'name'
+    expect(result.errors.email[0]).toContain("Email Address"); // should mention 'Email Address' in email rule message
+  });
+
+  it("falls back to field key if custom name is not provided", () => {
+    const validator = new Validator(data, schema, {});
+    const result = validator.validate();
+
+    expect(result.errors.name[0]).toContain("name");
+    expect(result.errors.email[0]).toContain("email");
+  });
 });

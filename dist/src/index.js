@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const Validator_1 = require("./core/Validator");
 const data = {
-    name: "",
+    name: "name",
     email: "",
 };
 const schema = {
