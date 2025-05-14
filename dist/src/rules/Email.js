@@ -1,8 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Email = void 0;
-class Email {
+const AbstractRule_1 = require("../core/AbstractRule");
+class Email extends AbstractRule_1.AbstractRule {
     constructor() {
+        super(...arguments);
         this.name = "email";
         this.emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     }
@@ -12,7 +14,7 @@ class Email {
         return typeof value === "string" && this.emailRegex.test(value);
     }
     message(field) {
-        return `${field} must be a valid email address.`;
+        return `${this.ucfirst(field)} must be a valid email address.`;
     }
 }
 exports.Email = Email;
