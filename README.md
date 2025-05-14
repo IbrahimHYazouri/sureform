@@ -115,7 +115,6 @@ Custom error messages are a powerful feature in ValidTS that help improve user e
 
 ---
 
-
 ## Custom Error Messages in ValidTS
 
 ### Overview
@@ -217,6 +216,77 @@ Output:
 ### Conclusion
 
 Custom error messages are a powerful feature in ValidTS that help improve user experience by delivering clearer and more contextual feedback. By following the override hierarchy, you can finely tune your validation system.
+
+## Custom Field Naming in ValidTS
+
+ValidTS now supports **custom field names**, which allows developers to display user-friendly field labels in error messages.
+
+---
+
+### ✨ Why This Feature?
+
+By default, error messages use the **field key** from the data object. However, this may not always be readable or friendly for end users. With this new feature, you can:
+
+- Replace `username` with `Username`
+- Replace `email_address` with `Email Address`
+- Customize labels like `password_confirmation` → `Confirm Password`
+
+---
+
+### ✅ How to Use
+
+Pass a `fields` object as the fourth argument to the `Validator` constructor.
+
+#### Example
+
+```ts
+import { Validator } from "./core/Validator";
+
+const data = {
+  username: "",
+  email: "invalid",
+};
+
+const schema = {
+  username: ["required"],
+  email: ["required", "email"],
+};
+
+const messages = {
+  "email.email": "The :attribute must be a valid email address",
+};
+
+const fields = {
+  username: "Username",
+  email: "Email Address",
+};
+
+const validator = new Validator(data, schema, messages, fields);
+const result = validator.validate();
+console.log(result.errors);
+```
+
+#### Output
+
+```json
+{
+  "username": ["This filed [Username] is required"],
+  "email": ["The Email Address must be a valid email address"]
+}
+```
+
+---
+
+### 🛠️ Notes
+
+- If no field name is defined in `fields`, the fallback is the original field key.
+- Custom field names are passed to the `message()` method of each rule.
+
+---
+
+### 💡 Tip
+
+You can use this feature together with **custom messages** for a more readable and localized validation experience.
 
 Made with ❤️ for developers.
 
