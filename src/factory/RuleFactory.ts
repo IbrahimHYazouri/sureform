@@ -31,7 +31,7 @@ export default class RuleFactory {
     if (!creator) {
       throw new Error(`Rule [${name}] is not registered`);
     }
-    return creator(...args);
+    return creator();
   }
 
   static initializeDefaults(): void {

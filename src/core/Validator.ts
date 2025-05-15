@@ -3,27 +3,21 @@ import ValidationRule from "./ValidationRule";
 
 type Rules = Record<string, string[]>;
 
+export type SchemaRule =
+  | string
+  | RuleDefinition
+  | ((val: any, data?: any) => boolean | string);
 export interface RuleDefinition {
   name: string;
-  args?: any;
+  args?: any[];
 }
-
-export type Schema = {
-  [field: string]: (
-    | string
-    | RuleDefinition
-    | ((value: any) => boolean | string)
-  )[];
-};
-
+export type Schema = Record<string, SchemaRule[]>;
 export interface Messages {
   [key: string]: string;
 }
-
 export interface Fields {
   [key: string]: string;
 }
-
 export interface ValidationResult {
   valid: boolean;
   errors: Record<string, string[]>;
@@ -51,25 +45,18 @@ export class Validator {
   validate(): ValidationResult {
     this.errors = {};
 
-    for (const field in this.schema) {
-      const defs = this.schema[field];
-      const value = this.data[field];
+    for (const key of Object.keys(this.schema)) {
+      const rules = this.schema[key];
 
-      for (const def of defs) {
-        const { rule, args } = this.parseRule(def);
-
-        const valid = rule.validate(value, ...args);
-        if (!valid) {
-          const key = `${field}.${rule.name}`;
-          const globalRuleKey = rule.name;
-
-          const msg =
-            this.messages[key] ??
-            this.messages[globalRuleKey] ??
-            rule.message(this.fields[field] ?? field, ...args);
-
-          this.addError(field, msg);
-        }
+      if (key.includes(".*.")) {
+        const [pre, post] = key.split(".*.");
+        const arr = this.resolveField(pre) || [];
+        arr.forEach((_: any, index: any) => {
+          const fieldPath = `${pre}.${index}.${post}`;
+          this.applyRules(fieldPath, rules);
+        });
+      } else {
+        this.applyRules(key, rules);
       }
     }
 
@@ -79,10 +66,50 @@ export class Validator {
     };
   }
 
-  resolveField(path: string): any {
+  private applyRules(path: string, rules: SchemaRule[]) {
+    const value = this.resolveField(path);
+
+    rules.forEach((def) => {
+      let rule: ValidationRule, args: any[];
+
+      if (typeof def === "function") {
+        // TODO, implement callable rules
+      } else {
+      }
+      const [name, argStr] = (typeof def === "string" ? def : def.name)!.split(
+        ":"
+      );
+      args =
+        def !== null && typeof def !== "string" && "args" in def
+          ? def.args!
+          : argStr
+          ? argStr.split(",")
+          : [];
+      rule = RuleFactory.create(name, ...args);
+
+      const passed = rule.validate(value, ...args);
+      if (!passed) {
+        const field = this.getFieldLabel(path);
+        const key2 = `${path}.${rule.name}`;
+        const msg =
+          this.messages[key2] ??
+          this.messages[rule.name] ??
+          rule.message(this.fields[field] ?? field, ...args);
+        this.addError(path, msg);
+      }
+    });
+  }
+
+  private resolveField(path: string): any {
     return path
       .split(".")
       .reduce((acc, part) => (acc ? acc[part] : undefined), this.data);
+  }
+
+  private getFieldLabel(path: string) {
+    // lookup custom label by base key (before wildcard index)
+    const base = path.replace(/\.\d+\./, ".*.");
+    return this.fields[base] || this.fields[path] || path;
   }
 
   private parseRule(
