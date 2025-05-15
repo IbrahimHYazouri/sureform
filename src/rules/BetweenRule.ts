@@ -1,6 +1,6 @@
-import ValidationRule from "../core/ValidationRule";
+import { AbstractRule } from "../core/AbstractRule";
 
-export class BetweenRule implements ValidationRule {
+export class BetweenRule extends AbstractRule {
   name = "between";
 
   validate(value: any, min: number, max: number): boolean {
@@ -17,6 +17,6 @@ export class BetweenRule implements ValidationRule {
     return false;
   }
   message(field: string, min: number, max: number): string {
-    return `${field} must be between ${min} and ${max}`;
+    return `${this.ucfirst(field)} must be between ${min} and ${max}`;
   }
 }

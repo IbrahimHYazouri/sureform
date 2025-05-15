@@ -1,6 +1,6 @@
-import ValidationRule from "../core/ValidationRule";
+import { AbstractRule } from "../core/AbstractRule";
 
-export class StringRule implements ValidationRule {
+export class StringRule extends AbstractRule {
   name = "string";
 
   validate(value: any): boolean {
@@ -10,6 +10,6 @@ export class StringRule implements ValidationRule {
   }
 
   message(field: string): string {
-    return `${field} must be a string.`;
+    return `${this.ucfirst(field)} must be a string.`;
   }
 }

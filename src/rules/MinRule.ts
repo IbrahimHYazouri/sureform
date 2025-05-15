@@ -1,6 +1,6 @@
-import ValidationRule from "../core/ValidationRule";
+import { AbstractRule } from "../core/AbstractRule";
 
-export class MinRule implements ValidationRule {
+export class MinRule extends AbstractRule {
   name = "min";
 
   validate(value: any, min: number): boolean {
@@ -18,6 +18,6 @@ export class MinRule implements ValidationRule {
   }
 
   message(field: string, min: number): string {
-    return `${field} must be at least ${min}`;
+    return `${this.ucfirst(field)} must be at least ${min}`;
   }
 }

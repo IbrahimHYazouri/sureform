@@ -1,6 +1,6 @@
-import ValidationRule from "../core/ValidationRule";
+import { AbstractRule } from "../core/AbstractRule";
 
-export class Numeric implements ValidationRule {
+export class Numeric extends AbstractRule {
   name = "numeric";
 
   validate(value: any): boolean {
@@ -10,6 +10,6 @@ export class Numeric implements ValidationRule {
   }
 
   message(field: string): string {
-    return `${field} must be a number`;
+    return `${this.ucfirst(field)} must be a number`;
   }
 }
