@@ -1,6 +1,6 @@
-import ValidationRule from "../core/ValidationRule";
+import { AbstractRule } from "../core/AbstractRule";
 
-export class ArrayRule implements ValidationRule {
+export class ArrayRule extends AbstractRule {
   name = "array";
 
   validate(value: any): boolean {
@@ -10,6 +10,6 @@ export class ArrayRule implements ValidationRule {
   }
 
   message(field: string): string {
-    return `${field} must be an array.`;
+    return `${this.ucfirst(field)} must be an array.`;
   }
 }

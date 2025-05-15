@@ -1,6 +1,6 @@
-import ValidationRule from "../core/ValidationRule";
+import { AbstractRule } from "../core/AbstractRule";
 
-export class MaxRule implements ValidationRule {
+export class MaxRule extends AbstractRule {
   name = "max";
 
   validate(value: any, max: number): boolean {
@@ -18,6 +18,6 @@ export class MaxRule implements ValidationRule {
   }
 
   message(field: string, max: number): string {
-    return `${field} must not exceed ${max}`;
+    return `${this.ucfirst(field)} must not exceed ${max}`;
   }
 }

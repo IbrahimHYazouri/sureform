@@ -24,7 +24,7 @@ describe("Validator integration", () => {
     const result = v.validate();
     expect(result.valid).toBe(false);
     expect(result.errors.name).toContain("This filed [name] is required");
-    expect(result.errors.age).toContain("age must be at least 18");
+    expect(result.errors.age).toContain("Age must be at least 18");
   });
 
   it("passes with corrected data", () => {

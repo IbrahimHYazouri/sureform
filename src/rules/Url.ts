@@ -1,6 +1,6 @@
-import ValidationRule from "../core/ValidationRule";
+import { AbstractRule } from "../core/AbstractRule";
 
-export class Url implements ValidationRule {
+export class Url extends AbstractRule {
   name = "url";
 
   private urlRegex = /^(https?:\/\/)?[\w-]+(\.[\w-]+)+[/#?]?.*$/;
@@ -12,6 +12,6 @@ export class Url implements ValidationRule {
   }
 
   message(field: string): string {
-    return `${field} must be a valid URL`;
+    return `${this.ucfirst(field)} must be a valid URL`;
   }
 }

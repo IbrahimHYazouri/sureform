@@ -1,6 +1,6 @@
-import ValidationRule from "../core/ValidationRule";
+import { AbstractRule } from "../core/AbstractRule";
 
-export class Boolean implements ValidationRule {
+export class Boolean extends AbstractRule {
   name = "boolean";
 
   private trueVals = [true, "true", 1, "1", "yes", "on"];
@@ -13,6 +13,6 @@ export class Boolean implements ValidationRule {
   }
 
   message(field: string): string {
-    return `${field} must be a boolean.`;
+    return `${this.ucfirst(field)} must be a boolean.`;
   }
 }
