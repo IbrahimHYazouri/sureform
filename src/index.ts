@@ -1,7 +1,7 @@
 import { Validator } from "./core/Validator";
 
 const data = {
-  name: "",
+  name: "name",
   email: "",
 };
 
