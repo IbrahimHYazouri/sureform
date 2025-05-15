@@ -205,14 +205,6 @@ Output:
 
 ---
 
-### Best Practices
-
-- Use `:field` in your messages to interpolate the field name dynamically.
-- Keep your messages consistent in tone and format.
-- Use `field.rule` when you need more granular control over user experience.
-
----
-
 ### Conclusion
 
 Custom error messages are a powerful feature in ValidTS that help improve user experience by delivering clearer and more contextual feedback. By following the override hierarchy, you can finely tune your validation system.
@@ -252,16 +244,12 @@ const schema = {
   email: ["required", "email"],
 };
 
-const messages = {
-  "email.email": "The :attribute must be a valid email address",
-};
-
 const fields = {
   username: "Username",
   email: "Email Address",
 };
 
-const validator = new Validator(data, schema, messages, fields);
+const validator = new Validator(data, schema, {}, fields);
 const result = validator.validate();
 console.log(result.errors);
 ```
@@ -271,7 +259,7 @@ console.log(result.errors);
 ```json
 {
   "username": ["This filed [Username] is required"],
-  "email": ["The Email Address must be a valid email address"]
+  "email": ["Email Address must be a valid email address."]
 }
 ```
 
