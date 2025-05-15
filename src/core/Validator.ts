@@ -71,21 +71,37 @@ export class Validator {
 
     rules.forEach((def) => {
       let rule: ValidationRule, args: any[];
+      let callbackMessage = "";
 
       if (typeof def === "function") {
-        // TODO, implement callable rules
+        rule = {
+          name: "callback",
+          validate: (value: any) => {
+            const res = def(value);
+            if (res === true) {
+              return true;
+            }
+
+            callbackMessage = res as string;
+            return false;
+          },
+          message: (_field: string) => {
+            return callbackMessage;
+          },
+        };
+        args = [];
       } else {
+        const [name, argStr] = (
+          typeof def === "string" ? def : def.name
+        )!.split(":");
+        args =
+          def !== null && typeof def !== "string" && "args" in def
+            ? def.args!
+            : argStr
+            ? argStr.split(",")
+            : [];
+        rule = RuleFactory.create(name, ...args);
       }
-      const [name, argStr] = (typeof def === "string" ? def : def.name)!.split(
-        ":"
-      );
-      args =
-        def !== null && typeof def !== "string" && "args" in def
-          ? def.args!
-          : argStr
-          ? argStr.split(",")
-          : [];
-      rule = RuleFactory.create(name, ...args);
 
       const passed = rule.validate(value, ...args);
       if (!passed) {
