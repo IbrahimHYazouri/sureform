@@ -85,6 +85,54 @@ describe("Validator integration", () => {
   });
 });
 
+describe("Validator - :field placeholder in custom messages", () => {
+  it("replaces :field with custom label in error message", () => {
+    const data = {
+      email: "",
+    };
+
+    const schema = {
+      email: ["required"],
+    };
+
+    const messages = {
+      required: ":field is required and cannot be left blank",
+    };
+
+    const fields = {
+      email: "Email Address",
+    };
+
+    const v = new Validator(data, schema, messages, fields);
+    const result = v.validate();
+
+    expect(result.valid).toBe(false);
+    expect(result.errors.email).toContain(
+      "Email Address is required and cannot be left blank"
+    );
+  });
+
+  it("falls back to raw field name when label not defined", () => {
+    const data = {
+      username: "",
+    };
+
+    const schema = {
+      username: ["required"],
+    };
+
+    const messages = {
+      required: ":field is required",
+    };
+
+    const v = new Validator(data, schema, messages);
+    const result = v.validate();
+
+    expect(result.valid).toBe(false);
+    expect(result.errors.username).toContain("username is required");
+  });
+});
+
 describe("Validator – Array Wildcard Support", () => {
   const data = {
     users: [{ email: "user1@example.com" }, { email: "bad-email" }],
