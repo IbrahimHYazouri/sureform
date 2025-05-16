@@ -1,12 +1,40 @@
 {
+  "name": "sure-form-ts",
+  "version": "1.0.0",
+  "description": "Lightweight and extensible TypeScript validation library",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
   "devDependencies": {
     "@vitest/ui": "^3.1.3",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.3",
     "vitest": "^3.1.3"
   },
+  "keywords": [
+    "typescript",
+    "validation",
+    "validator",
+    "rules",
+    "form"
+  ],
   "scripts": {
-    "test": "vitest",
-    "test:ui": "vitest --ui"
+    "build": "tsc",
+    "prepare": "npm run build"
+  },
+  "license": "MIT",
+  "author": "Ibrahim H Al-Yazouri",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/IbrahimHYazouri/sure-form-ts"
   }
 }
