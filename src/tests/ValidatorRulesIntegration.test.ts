@@ -84,3 +84,52 @@ describe("Validator integration", () => {
     expect(result.errors.email[0]).toContain("email");
   });
 });
+
+describe("Validator – Array Wildcard Support", () => {
+  const data = {
+    users: [{ email: "user1@example.com" }, { email: "bad-email" }],
+  };
+  const schema = {
+    "users.*.email": ["required", "email"],
+  };
+
+  it("validates each element under users.*.email", () => {
+    const v = new Validator(data, schema);
+    const result = v.validate();
+    expect(result.valid).toBe(false);
+    // the second user’s email should appear in errors under the full path:
+    expect(result.errors["users.1.email"]).toContain(
+      "Users.1.email must be a valid email address."
+    );
+  });
+
+  it("passes when all emails are valid", () => {
+    const goodData = {
+      users: [{ email: "a@b.co" }, { email: "x@y.z" }],
+    };
+    const v2 = new Validator(goodData, schema);
+    expect(v2.validate().valid).toBe(true);
+  });
+});
+
+describe("Validator – Closure/Callback Rules", () => {
+  const data = { age: 15, code: "XY" };
+  const schema = {
+    age: [(v: number) => v >= 18 || "Must be 18 or older"],
+    code: [(v: string) => /^XYZ\d+$/.test(v) || "Invalid code format"],
+  };
+
+  it("runs inline functions and collects custom messages", () => {
+    const v = new Validator(data, schema);
+    const result = v.validate();
+    expect(result.valid).toBe(false);
+    expect(result.errors.age).toContain("Must be 18 or older");
+    expect(result.errors.code).toContain("Invalid code format");
+  });
+
+  it("passes when closures return true", () => {
+    const okData = { age: 21, code: "XYZ999" };
+    const v2 = new Validator(okData, schema);
+    expect(v2.validate().valid).toBe(true);
+  });
+});
