@@ -1,11 +1,19 @@
-# ValidTS - TypeScript Validation Library
+# SureForm - TypeScript Validation Library
 
-**ValidTS** is a lightweight, extensible validation library written in TypeScript. It allows you to define clean, reusable validation schemas for JavaScript or Vue.js projects, supporting both built-in and custom rules, friendly error messages, field labels, advanced rules, wildcard paths, and inline callback validators.
+**SureForm** is a lightweight, extensible validation library written in TypeScript. It allows you to define clean, reusable validation schemas for JavaScript or Vue.js projects, supporting both built-in and custom rules, friendly error messages, field labels, advanced rules, wildcard paths, and inline callback validators.
+
+## 📦 Installation
+
+```bash
+# npm
+npm install sure-form-ts
+
+---
 
 ## 🚀 Quick Start
 
 ```ts
-import { Validator } from 'validts';
+import { Validator } from 'sure-form-ts';
 
 const data = {
   username: '',
