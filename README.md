@@ -1,280 +1,140 @@
-# ValidTS
+# ValidTS - TypeScript Validation Library
 
-**ValidTS** is a lightweight and extensible validation library written in TypeScript. It enables developers to define clean and reusable validation rules for forms, data models, and API inputs in plain JavaScript or Vue.js applications.
+**ValidTS** is a lightweight, extensible validation library written in TypeScript. It allows you to define clean, reusable validation schemas for JavaScript or Vue.js projects, supporting both built-in and custom rules, friendly error messages, field labels, advanced rules, wildcard paths, and inline callback validators.
 
-## 🔍 Features
-
-- Simple and fluent API for rule definitions
-- Built-in validation rules (required, minLength, email, etc.)
-- Custom rule support
-- Supports sync and async validations
-- Works seamlessly with plain JavaScript or Vue.js
-- Easily extendable and testable
-
-## ✅ Available Rules
-
-### 1. `required`
-Checks if the value is present (not `null`, `undefined`, or empty string).
+## 🚀 Quick Start
 
 ```ts
-{ name: ["required"] }
-```
+import { Validator } from 'validts';
 
----
-
-### 2. `string`
-Ensures the value is a string.
-
-```ts
-{ username: ["required", "string"] }
-```
-
----
-
-### 3. `numeric`
-Ensures the value is a number.
-
-```ts
-{ age: ["required", "numeric"] }
-```
-
----
-
-### 4. `boolean`
-Ensures the value is a boolean (`true` or `false`).
-
-```ts
-{ isActive: ["required", "boolean"] }
-```
-
----
-
-### 5. `array`
-Ensures the value is an array.
-
-```ts
-{ tags: ["required", "array"] }
-```
-
----
-
-### 6. `email`
-Validates that the value is a valid email address.
-
-```ts
-{ email: ["required", "email"] }
-```
-
----
-
-### 7. `url`
-Validates that the value is a valid URL.
-
-```ts
-{ website: ["url"] }
-```
-
----
-
-### 8. `min:value`
-For strings, arrays, and numbers: enforces minimum length or value.
-
-```ts
-{ password: ["required", "min:6"] }
-{ age: ["numeric", "min:18"] }
-```
-
----
-
-### 9. `max:value`
-For strings, arrays, and numbers: enforces maximum length or value.
-
-```ts
-{ username: ["required", "max:15"] }
-{ quantity: ["numeric", "max:100"] }
-```
-
----
-
-### 10. `between:min,max`
-Checks if a number or string length falls between two values (inclusive).
-
-```ts
-{ age: ["required", "between:18,60"] }
-{ password: ["between:6,12"] }
-```
-
----
-
-Custom error messages are a powerful feature in ValidTS that help improve user experience by delivering clearer and more contextual feedback. By following the override hierarchy, you can finely tune your validation system.
-
-## 🔍 Notes
-
-- Each rule can accept arguments using `:` and `,` delimiters.
-- Arguments are automatically parsed and passed to rule methods.
-
----
-
-## Custom Error Messages in ValidTS
-
-### Overview
-
-When using the `Validator` class, you can pass a third argument: a `messages` object. This object lets you define custom error messages:
-
-```ts
-new Validator(data, schema, messages);
-```
-
-### Syntax
-
-The `messages` object supports two types of keys:
-
-| Key Format         | Description                                      |
-|--------------------|--------------------------------------------------|
-| `field.rule`       | Specific override for a rule on a particular field |
-| `rule`             | General override for a specific rule             |
-
-### Examples
-
-#### Field-Specific Rule Message
-
-```ts
-const messages = {
-  "email.required": "We need your email address."
-};
-```
-
-This will override the default `required` error message **only** for the `email` field.
-
-#### Global Rule Message
-
-```ts
-const messages = {
-  "required": ":field is mandatory."
-};
-```
-
-This overrides the `required` message for **all** fields—unless a more specific field-rule message is provided.
-
-#### Default Rule Message Fallback
-
-If no message is found in the `messages` object, the default message from the rule is used.
-
----
-
-### Priority
-
-When resolving the message to show, the following priority is used:
-
-1. `messages["field.rule"]` – most specific
-2. `messages["rule"]` – rule-wide override
-3. `Rule.defaultMessage(field)` – built-in fallback
-
-#### Example
-
-```ts
 const data = {
-  name: "",
-  email: "not-an-email"
+  username: '',
+  email: 'foo@bar.com',
+  age: '17',
+  tags: ['a', 'b'],
 };
 
 const schema = {
-  name: ["required"],
-  email: ["required", "email"]
+  username: ['required', 'min:3'],
+  email: ['required', 'email'],
+  age: ['numeric', 'min:18'],
+  tags: ['array', 'min:1'],
 };
 
-const messages = {
-  "name.required": "Please provide your name.",
-  "email": "The value for email is not valid."
-};
+const v = new Validator(data, schema);
+const result = v.validate();
 
-const validator = new Validator(data, schema, messages);
-const result = validator.validate();
-
-console.log(result.errors);
-```
-
-Output:
-
-```json
-{
-  "name": ["Please provide your name."],
-  "email": ["The value for email is not valid."]
+if (!result.valid) {
+  console.log(result.errors);
 }
 ```
 
 ---
 
-### Conclusion
+## 🧰 Core Features
 
-Custom error messages are a powerful feature in ValidTS that help improve user experience by delivering clearer and more contextual feedback. By following the override hierarchy, you can finely tune your validation system.
-
-## Custom Field Naming in ValidTS
-
-ValidTS now supports **custom field names**, which allows developers to display user-friendly field labels in error messages.
-
----
-
-### ✨ Why This Feature?
-
-By default, error messages use the **field key** from the data object. However, this may not always be readable or friendly for end users. With this new feature, you can:
-
-- Replace `username` with `Username`
-- Replace `email_address` with `Email Address`
-- Customize labels like `password_confirmation` → `Confirm Password`
+- Simple and fluent API for rule definitions
+- **Schema-based validation**: Define rules per field.
+- **Built-in rules**: `required`, `string`, `numeric`, `boolean`, `array`, `email`, `url`, `min`, `max`, `between`.
+- **Advanced rules**: `regex`, `not-regex`, `in-array`, `file-type`.
+- **Wildcard support**: Validate array items with `field.*.subfield`.
+- **Custom messages**: Override global or field-specific messages, with `:field` placeholder.
+- **Custom field labels**: Provide human-friendly names.
+- **Callback rules**: Use inline functions returning `true` or error message string.
+- **Extensible**: Register new rules via `RuleFactory`.
 
 ---
 
-### ✅ How to Use
+### Basic Rules
 
-Pass a `fields` object as the fourth argument to the `Validator` constructor.
+| Rule       | Description                                       | Syntax                     |
+| ---------- | ------------------------------------------------- | -------------------------- |
+| `required` | Field must be non-empty                           | `"required"`               |
+| `string`   | Value must be a string                            | `"string"`                 |
+| `numeric`  | Value must be numeric                             | `"numeric"`                |
+| `boolean`  | Value must be boolean                             | `"boolean"`                |
+| `array`    | Value must be an array                            | `"array"`                  |
+| `email`    | Validates email format                            | `"email"`                  |
+| `url`      | Validates URL format                              | `"url"`                    |
+| `min`      | Min length/value (strings, arrays, numbers)       | `"min:<value>"`            |
+| `max`      | Max length/value (strings, arrays, numbers)       | `"max:<value>"`            |
+| `between`  | Value between min and max inclusive               | `"between:<min>,<max>"`    |
 
-#### Example
+### Advanced Rules
+
+| Rule       | Description                                        | Syntax                         |
+| ---------- | -------------------------------------------------- | ------------------------------ |
+| `regex`    | Matches regular expression                         | `"regex:<pattern>"`            |
+| `not-regex` | Must *not* match pattern                           | `"not-regex:<pattern>"`         |
+| `in-array`  | Value in list                                      | `"in-array:<val1>,<val2>,..."`  |
+| `file-type` | File MIME type match (`File.type`)                 | `"file-type:<mime1>,<mime2>"`   |
+
+---
+
+## 🔧 Custom Messages & Field Labels
+
+Pass `messages` and `fields` to the `Validator` constructor:
 
 ```ts
-import { Validator } from "./core/Validator";
+const data = { name: '', email: '' };
+const schema = { name: ['required'], email: ['required', 'email'] };
 
-const data = {
-  username: "",
-  email: "invalid",
-};
-
-const schema = {
-  username: ["required"],
-  email: ["required", "email"],
+const messages = {
+  'name.required': 'Please enter your full name.',
+  'required': ':field is mandatory.',
+  'email': 'The :field must be a valid email address.'
 };
 
 const fields = {
-  username: "Username",
-  email: "Email Address",
+  name: 'Full Name',
+  email: 'Email Address',
 };
 
-const validator = new Validator(data, schema, {}, fields);
-const result = validator.validate();
-console.log(result.errors);
+const v = new Validator(data, schema, messages, fields);
+const res = v.validate();
+
+console.log(res.errors);
+// {
+//   name: ['Please enter your full name.'],
+//   email: ['The Email Address must be a valid email address.']
+// }
 ```
 
-#### Output
+- **Field-specific**: `messages['field.rule']`
+- **Global rule**: `messages['rule']`
+- **`:field`** placeholder replaced by label or field key
+- **Fallback**: rule’s default message
 
-```json
-{
-  "username": ["This filed [Username] is required"],
-  "email": ["Email Address must be a valid email address."]
-}
+---
+
+## 🌐 Wildcard Validation
+
+Use `*` to iterate over array items:
+
+```ts
+const data = { users: [{ email: 'a@b.com' }, { email: 'bad' }] };
+const schema = {
+  'users.*.email': ['required', 'email']
+};
+
+const v = new Validator(data, schema);
+console.log(v.validate().errors);
+// { 'users.1.email': ['users.1.email must be a valid email address'] }
 ```
 
 ---
 
-### 🛠️ Notes
+## ⚙️ Callback (Inline) Rules
 
-- If no field name is defined in `fields`, the fallback is the original field key.
-- Custom field names are passed to the `message()` method of each rule.
+Define inline functions in `schema`:
+
+```ts
+const schema = {
+  age: [
+    (v) => v >= 18 || 'Age must be at least 18.',
+    (v) => v % 2 === 0 || 'Age must be even.'
+  ]
+};
+```
 
 ---
-
-### 💡 Tip
-
-You can use this feature together with **custom messages** for a more readable and localized validation experience.
-
-Made with ❤️ for developers.
-
