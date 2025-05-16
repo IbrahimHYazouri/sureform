@@ -1,6 +1,6 @@
 {
   "name": "sure-form-ts",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Lightweight and extensible TypeScript validation library",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
