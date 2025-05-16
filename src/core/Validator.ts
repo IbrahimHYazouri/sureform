@@ -85,9 +85,7 @@ export class Validator {
             callbackMessage = res as string;
             return false;
           },
-          message: (_field: string) => {
-            return callbackMessage;
-          },
+          message: () => callbackMessage,
         };
         args = [];
       } else {
@@ -105,13 +103,24 @@ export class Validator {
 
       const passed = rule.validate(value, ...args);
       if (!passed) {
-        const field = this.getFieldLabel(path);
-        const key2 = `${path}.${rule.name}`;
-        const msg =
-          this.messages[key2] ??
-          this.messages[rule.name] ??
-          rule.message(this.fields[field] ?? field, ...args);
-        this.addError(path, msg);
+        // 1) Resolve the user-friendly label for this field
+        const label = this.getFieldLabel(path);
+
+        // 2) Pick the correct message template:
+        //    a) field.rule, b) global rule, c) rule default
+        const keyFieldRule = `${path}.${rule.name}`;
+        const keyGlobalRule = rule.name;
+
+        let msgTemplate =
+          this.messages[keyFieldRule] ??
+          this.messages[keyGlobalRule] ??
+          rule.message(this.fields[label] ?? label, ...args);
+
+        // 3) Replace :field placeholder with the actual label or field key
+        //    Supports multiple occurrences of :field in the message
+        msgTemplate = msgTemplate.split(":field").join(label);
+
+        this.addError(path, msgTemplate);
       }
     });
   }
