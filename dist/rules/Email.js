@@ -1,10 +1,7 @@
 import { AbstractRule } from "../core/AbstractRule";
 export class Email extends AbstractRule {
-    constructor() {
-        super(...arguments);
-        this.name = "email";
-        this.emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    }
+    name = "email";
+    emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     validate(value) {
         if (value === null || value === "")
             return false;

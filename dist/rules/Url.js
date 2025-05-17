@@ -1,10 +1,7 @@
 import { AbstractRule } from "../core/AbstractRule";
 export class Url extends AbstractRule {
-    constructor() {
-        super(...arguments);
-        this.name = "url";
-        this.urlRegex = /^(https?:\/\/)?[\w-]+(\.[\w-]+)+[/#?]?.*$/;
-    }
+    name = "url";
+    urlRegex = /^(https?:\/\/)?[\w-]+(\.[\w-]+)+[/#?]?.*$/;
     validate(value) {
         if (value === null || value === "")
             return false;

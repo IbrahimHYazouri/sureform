@@ -1,9 +1,11 @@
 import RuleFactory from "../factory/RuleFactory";
 export class Validator {
+    data;
+    schema;
+    messages = {};
+    fields = {};
+    errors = {};
     constructor(data, rules, messages, fields) {
-        this.messages = {};
-        this.fields = {};
-        this.errors = {};
         this.data = data;
         this.schema = rules;
         this.messages = messages ? messages : {};
@@ -33,7 +35,6 @@ export class Validator {
     applyRules(path, rules) {
         const value = this.resolveField(path);
         rules.forEach((def) => {
-            var _a, _b, _c;
             let rule, args;
             let callbackMessage = "";
             if (typeof def === "function") {
@@ -66,7 +67,9 @@ export class Validator {
                 const label = this.getFieldLabel(path);
                 const keyFieldRule = `${path}.${rule.name}`;
                 const keyGlobalRule = rule.name;
-                let msgTemplate = (_b = (_a = this.messages[keyFieldRule]) !== null && _a !== void 0 ? _a : this.messages[keyGlobalRule]) !== null && _b !== void 0 ? _b : rule.message((_c = this.fields[label]) !== null && _c !== void 0 ? _c : label, ...args);
+                let msgTemplate = this.messages[keyFieldRule] ??
+                    this.messages[keyGlobalRule] ??
+                    rule.message(this.fields[label] ?? label, ...args);
                 msgTemplate = msgTemplate.split(":field").join(label);
                 this.addError(path, msgTemplate);
             }

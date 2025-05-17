@@ -1,9 +1,6 @@
 import { AbstractRule } from "../core/AbstractRule";
 export class BetweenRule extends AbstractRule {
-    constructor() {
-        super(...arguments);
-        this.name = "between";
-    }
+    name = "between";
     validate(value, min, max) {
         if (value === null)
             return true;

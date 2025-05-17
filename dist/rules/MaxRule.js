@@ -1,9 +1,6 @@
 import { AbstractRule } from "../core/AbstractRule";
 export class MaxRule extends AbstractRule {
-    constructor() {
-        super(...arguments);
-        this.name = "max";
-    }
+    name = "max";
     validate(value, max) {
         if (value == null)
             return true;

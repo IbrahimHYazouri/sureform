@@ -1,9 +1,6 @@
 import { AbstractRule } from "../core/AbstractRule";
 export class NotRegex extends AbstractRule {
-    constructor() {
-        super(...arguments);
-        this.name = "not-regex";
-    }
+    name = "not-regex";
     validate(value, pattern) {
         if (value == null || value === "")
             return false;

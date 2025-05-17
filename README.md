@@ -6,14 +6,14 @@
 
 ```bash
 # npm
-npm install sure-form-ts
+npm install sureform
 
 ---
 
 ## 🚀 Quick Start
 
 ```ts
-import { Validator } from 'sure-form-ts';
+import { Validator } from 'sure-form';
 
 const data = {
   username: '',
