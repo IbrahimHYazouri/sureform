@@ -1,9 +1,6 @@
 import { AbstractRule } from "../core/AbstractRule";
 export class ArrayRule extends AbstractRule {
-    constructor() {
-        super(...arguments);
-        this.name = "array";
-    }
+    name = "array";
     validate(value) {
         if (value === null)
             return false;

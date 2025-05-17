@@ -1,9 +1,6 @@
 import { AbstractRule } from "../core/AbstractRule";
 export class Regex extends AbstractRule {
-    constructor() {
-        super(...arguments);
-        this.name = "regex";
-    }
+    name = "regex";
     validate(value, pattern) {
         if (value == null || value === "")
             return false;

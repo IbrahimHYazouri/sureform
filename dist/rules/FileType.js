@@ -1,9 +1,6 @@
 import { AbstractRule } from "../core/AbstractRule";
 export default class FileType extends AbstractRule {
-    constructor() {
-        super(...arguments);
-        this.name = "file-type";
-    }
+    name = "file-type";
     validate(value, types) {
         if (!value)
             return false;

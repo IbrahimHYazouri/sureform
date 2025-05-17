@@ -1,11 +1,8 @@
 import { AbstractRule } from "../core/AbstractRule";
 export class Boolean extends AbstractRule {
-    constructor() {
-        super(...arguments);
-        this.name = "boolean";
-        this.trueVals = [true, "true", 1, "1", "yes", "on"];
-        this.falseVals = [false, "false", 0, "0", "no", "off"];
-    }
+    name = "boolean";
+    trueVals = [true, "true", 1, "1", "yes", "on"];
+    falseVals = [false, "false", 0, "0", "no", "off"];
     validate(value) {
         if (value === null || value === "")
             return false;

@@ -1,9 +1,6 @@
 import { AbstractRule } from "../core/AbstractRule";
 export class StringRule extends AbstractRule {
-    constructor() {
-        super(...arguments);
-        this.name = "string";
-    }
+    name = "string";
     validate(value) {
         if (value === null)
             return false;

@@ -1,9 +1,6 @@
 import { AbstractRule } from "../core/AbstractRule";
 export class Numeric extends AbstractRule {
-    constructor() {
-        super(...arguments);
-        this.name = "numeric";
-    }
+    name = "numeric";
     validate(value) {
         if (value === null || value === "")
             return false;

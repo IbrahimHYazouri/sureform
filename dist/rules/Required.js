@@ -1,7 +1,5 @@
 export class Required {
-    constructor() {
-        this.name = "required";
-    }
+    name = "required";
     validate(value) {
         return value !== null && value !== undefined && value !== "";
     }

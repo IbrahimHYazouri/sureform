@@ -1,41 +1,42 @@
 {
-  "name": "sure-form-ts",
-  "version": "1.0.1",
-  "description": "Lightweight and extensible TypeScript validation library",
-  "main": "dist/index.js",
+  "name": "sureform",
+  "version": "1.0.0",
+  "description": "Type-safe and extensible validation library for TypeScript and JavaScript",
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
   "types": "dist/index.d.ts",
+  "exports": {
+    "import": "./dist/index.js",
+    "require": "./dist/index.cjs"
+  },
   "files": [
     "dist"
   ],
-  "exports": {
-    ".": {
-      "import": "./dist/index.js",
-      "require": "./dist/index.js",
-      "types": "./dist/index.d.ts"
-    }
-  },
-  "devDependencies": {
-    "@vitest/ui": "^3.1.3",
-    "ts-node": "^10.9.2",
-    "typescript": "^5.8.3",
-    "vitest": "^3.1.3"
+  "scripts": {
+    "build": "tsup src/index.ts --dts --format esm,cjs --out-dir dist",
+    "prepare": "npm run build"
   },
   "keywords": [
     "typescript",
     "validation",
+    "form",
     "validator",
     "rules",
-    "form"
+    "sureform"
   ],
-  "scripts": {
-    "build": "tsc",
-    "prepare": "npm run build"
-  },
-  "license": "MIT",
   "author": "Ibrahim H Al-Yazouri",
+  "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/IbrahimHYazouri/sure-form-ts"
+    "url": "https://github.com/IbrahimHYazouri/sureform"
   },
-  "homepage": "https://github.com/IbrahimHYazouri/sure-form-ts#readme"
+  "homepage": "https://github.com/IbrahimHYazouri/sureform#readme",
+  "type": "module",
+  "devDependencies": {
+    "@vitest/ui": "^3.1.3",
+    "ts-node": "^10.9.2",
+    "tsup": "^8.5.0",
+    "typescript": "^5.8.3",
+    "vitest": "^3.1.3"
+  }
 }

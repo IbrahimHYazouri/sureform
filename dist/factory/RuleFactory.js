@@ -12,7 +12,8 @@ import { Regex } from "../rules/Regex";
 import { Required } from "../rules/Required";
 import { StringRule } from "../rules/StringRule";
 import { Url } from "../rules/Url";
-class RuleFactory {
+export default class RuleFactory {
+    static registry = new Map();
     static register(name, creator) {
         if (RuleFactory.registry.has(name)) {
             throw new Error(`Rule [${name}] is already registered.`);
@@ -43,7 +44,5 @@ class RuleFactory {
         RuleFactory.register("file-type", () => new FileType());
     }
 }
-RuleFactory.registry = new Map();
-export default RuleFactory;
 RuleFactory.initializeDefaults();
 //# sourceMappingURL=RuleFactory.js.map

@@ -1,9 +1,6 @@
 import { AbstractRule } from "../core/AbstractRule";
 export class MinRule extends AbstractRule {
-    constructor() {
-        super(...arguments);
-        this.name = "min";
-    }
+    name = "min";
     validate(value, min) {
         if (value == null)
             return true;
