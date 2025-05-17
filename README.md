@@ -2,6 +2,8 @@
 
 **SureForm** is a lightweight, extensible validation library written in TypeScript. It allows you to define clean, reusable validation schemas for JavaScript or Vue.js projects, supporting both built-in and custom rules, friendly error messages, field labels, advanced rules, wildcard paths, and inline callback validators.
 
+![alt text](image.png)
+
 ## 📦 Installation
 
 ```bash
