@@ -13,7 +13,7 @@ npm install sureform
 ## 🚀 Quick Start
 
 ```ts
-import { Validator } from 'sure-form';
+import { Validator } from 'sureform';
 
 const data = {
   username: '',
