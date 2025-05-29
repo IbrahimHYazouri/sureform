@@ -12,6 +12,7 @@ import { Regex } from "../rules/Regex";
 import { Required } from "../rules/Required";
 import { StringRule } from "../rules/StringRule";
 import { Url } from "../rules/Url";
+import { StrongPassword } from "../rules/StrongPassword";
 export default class RuleFactory {
     static registry = new Map();
     static register(name, creator) {
@@ -42,6 +43,7 @@ export default class RuleFactory {
         RuleFactory.register("not-regex", () => new NotRegex());
         RuleFactory.register("in-array", () => new InArray());
         RuleFactory.register("file-type", () => new FileType());
+        RuleFactory.register("strong-password", () => new StrongPassword());
     }
 }
 RuleFactory.initializeDefaults();
