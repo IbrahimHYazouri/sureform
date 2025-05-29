@@ -69,6 +69,8 @@ if (!result.valid) {
 | `min`      | Min length/value (strings, arrays, numbers)       | `"min:<value>"`            |
 | `max`      | Max length/value (strings, arrays, numbers)       | `"max:<value>"`            |
 | `between`  | Value between min and max inclusive               | `"between:<min>,<max>"`    |
+| `strong-password` | Enforces a strong password (min 8 chars, includes uppercase, lowercase, number, special char) | `"strong-password"` |
+
 
 ### Advanced Rules
 
