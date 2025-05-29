@@ -13,6 +13,7 @@ import { Regex } from "../rules/Regex";
 import { Required } from "../rules/Required";
 import { StringRule } from "../rules/StringRule";
 import { Url } from "../rules/Url";
+import { StrongPassword } from "../rules/StrongPassword";
 
 type RuleCreator = (args?: any) => ValidationRule;
 
@@ -49,6 +50,7 @@ export default class RuleFactory {
     RuleFactory.register("not-regex", () => new NotRegex());
     RuleFactory.register("in-array", () => new InArray());
     RuleFactory.register("file-type", () => new FileType());
+    RuleFactory.register("strong-password", () => new StrongPassword());
   }
 }
 
