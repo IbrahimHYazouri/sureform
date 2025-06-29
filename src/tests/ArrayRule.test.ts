@@ -8,6 +8,6 @@ describe("ArrayRule", () => {
   });
   it("fails non-arrays", () => {
     expect(r.validate("not array")).toBe(false);
-    expect(r.validate(null)).toBe(false); // empty not allowed
+    expect(r.validate(null)).toBe(true); // empty allowed
   });
 });

@@ -9,6 +9,10 @@ describe("InArrayRule", () => {
     expect(r.validate("bar", list)).toBe(true);
   });
 
+  it("passes with null value", () => {
+    expect(r.validate(null, list)).toBe(true);
+  });
+
   it("fails when value is not in array", () => {
     expect(r.validate("", list)).toBe(false);
     expect(r.validate("john", list)).toBe(false);

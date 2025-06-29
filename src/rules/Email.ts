@@ -6,7 +6,7 @@ export class Email extends AbstractRule {
   private emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
   validate(value: any): boolean {
-    if (value === null || value === "") return false;
+    if (value === null || value === "") return true;
 
     return typeof value === "string" && this.emailRegex.test(value);
   }

@@ -4,7 +4,7 @@ export class Regex extends AbstractRule {
   name = "regex";
 
   validate(value: any, pattern: RegExp): boolean {
-    if (value == null || value === "") return false;
+    if (value == null || value === "") return true;
 
     return typeof value === "string" && pattern.test(value);
   }

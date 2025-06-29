@@ -12,7 +12,7 @@ describe("EmailRule", () => {
     expect(r.validate("maybe@.com")).toBe(false);
   });
   it("passes empty/null values", () => {
-    expect(r.validate("")).toBe(false);
-    expect(r.validate(null)).toBe(false);
+    expect(r.validate("")).toBe(true);
+    expect(r.validate(null)).toBe(true);
   });
 });

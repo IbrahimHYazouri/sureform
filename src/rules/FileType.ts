@@ -4,7 +4,7 @@ export default class FileType extends AbstractRule {
   name = "file-type";
 
   validate(value: any, types: string[]): boolean {
-    if (!value) return false;
+    if (!value) return true;
 
     return value.type && types.includes(value.type);
   }
