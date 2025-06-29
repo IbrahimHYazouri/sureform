@@ -4,7 +4,7 @@ export class StringRule extends AbstractRule {
   name = "string";
 
   validate(value: any): boolean {
-    if (value === null) return false;
+    if (value === null) return true;
 
     return typeof value === "string";
   }

@@ -12,7 +12,7 @@ describe("UrlRule", () => {
     expect(r.validate("ftp://example.com")).toBe(false);
   });
   it("passes empty/null", () => {
-    expect(r.validate("")).toBe(false);
-    expect(r.validate(null)).toBe(false);
+    expect(r.validate("")).toBe(true);
+    expect(r.validate(null)).toBe(true);
   });
 });

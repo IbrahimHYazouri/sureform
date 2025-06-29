@@ -4,7 +4,7 @@ export class ArrayRule extends AbstractRule {
   name = "array";
 
   validate(value: any): boolean {
-    if (value === null) return false;
+    if (value === null) return true;
 
     return Array.isArray(value);
   }

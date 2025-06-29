@@ -36,7 +36,7 @@ var AbstractRule = class {
 var ArrayRule = class extends AbstractRule {
   name = "array";
   validate(value) {
-    if (value === null) return false;
+    if (value === null) return true;
     return Array.isArray(value);
   }
   message(field) {
@@ -68,7 +68,7 @@ var Boolean = class extends AbstractRule {
   trueVals = [true, "true", 1, "1", "yes", "on"];
   falseVals = [false, "false", 0, "0", "no", "off"];
   validate(value) {
-    if (value === null || value === "") return false;
+    if (value === null || value === "") return true;
     return this.trueVals.includes(value) || this.falseVals.includes(value);
   }
   message(field) {
@@ -81,7 +81,7 @@ var Email = class extends AbstractRule {
   name = "email";
   emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   validate(value) {
-    if (value === null || value === "") return false;
+    if (value === null || value === "") return true;
     return typeof value === "string" && this.emailRegex.test(value);
   }
   message(field) {
@@ -93,7 +93,7 @@ var Email = class extends AbstractRule {
 var FileType = class extends AbstractRule {
   name = "file-type";
   validate(value, types) {
-    if (!value) return false;
+    if (!value) return true;
     return value.type && types.includes(value.type);
   }
   message(field, types) {
@@ -105,7 +105,7 @@ var FileType = class extends AbstractRule {
 var InArray = class extends AbstractRule {
   name = "in-array";
   validate(value, list) {
-    if (value == null) return false;
+    if (value == null) return true;
     return list.includes(value);
   }
   message(field, list) {
@@ -153,7 +153,7 @@ var MinRule = class extends AbstractRule {
 var NotRegex = class extends AbstractRule {
   name = "not-regex";
   validate(value, pattern) {
-    if (value == null || value === "") return false;
+    if (value == null || value === "") return true;
     return typeof value === "string" && !pattern.test(value);
   }
   message(field) {
@@ -165,7 +165,7 @@ var NotRegex = class extends AbstractRule {
 var Numeric = class extends AbstractRule {
   name = "numeric";
   validate(value) {
-    if (value === null || value === "") return false;
+    if (value === null || value === "") return true;
     return !isNaN(parseFloat(value)) && isFinite(value);
   }
   message(field) {
@@ -177,7 +177,7 @@ var Numeric = class extends AbstractRule {
 var Regex = class extends AbstractRule {
   name = "regex";
   validate(value, pattern) {
-    if (value == null || value === "") return false;
+    if (value == null || value === "") return true;
     return typeof value === "string" && pattern.test(value);
   }
   message(field) {
@@ -200,7 +200,7 @@ var Required = class {
 var StringRule = class extends AbstractRule {
   name = "string";
   validate(value) {
-    if (value === null) return false;
+    if (value === null) return true;
     return typeof value === "string";
   }
   message(field) {
@@ -213,11 +213,23 @@ var Url = class extends AbstractRule {
   name = "url";
   urlRegex = /^(https?:\/\/)?[\w-]+(\.[\w-]+)+[/#?]?.*$/;
   validate(value) {
-    if (value === null || value === "") return false;
+    if (value === null || value === "") return true;
     return typeof value === "string" && this.urlRegex.test(value);
   }
   message(field) {
     return `${this.ucfirst(field)} must be a valid URL`;
+  }
+};
+
+// src/rules/StrongPassword.ts
+var StrongPassword = class extends AbstractRule {
+  name = "strong-password";
+  validate(value) {
+    if (!value || typeof value !== "string") return false;
+    return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/.test(value);
+  }
+  message(field) {
+    return `${field} must be at least 8 characters long and include uppercase, lowercase, number, and special character.`;
   }
 };
 
@@ -252,6 +264,7 @@ var RuleFactory = class _RuleFactory {
     _RuleFactory.register("not-regex", () => new NotRegex());
     _RuleFactory.register("in-array", () => new InArray());
     _RuleFactory.register("file-type", () => new FileType());
+    _RuleFactory.register("strong-password", () => new StrongPassword());
   }
 };
 RuleFactory.initializeDefaults();

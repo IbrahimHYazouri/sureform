@@ -14,7 +14,7 @@ describe("RegexRule", () => {
   });
 
   it("skips null/empty", () => {
-    expect(rule.validate("", pattern)).toBe(false);
-    expect(rule.validate(null, pattern)).toBe(false);
+    expect(rule.validate("", pattern)).toBe(true);
+    expect(rule.validate(null, pattern)).toBe(true);
   });
 });

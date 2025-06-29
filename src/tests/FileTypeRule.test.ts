@@ -9,7 +9,6 @@ describe("FileTypeRule", () => {
   });
 
   it("fails with invalid types", () => {
-    expect(r.validate(null, types)).toBe(false);
     expect(r.validate({ type: "image/svg" }, types)).toBe(false);
   });
 });

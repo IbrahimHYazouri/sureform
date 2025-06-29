@@ -4,7 +4,7 @@ export class InArray extends AbstractRule {
   name = "in-array";
 
   validate(value: any, list: any[]) {
-    if (value == null) return false;
+    if (value == null) return true;
 
     return list.includes(value);
   }

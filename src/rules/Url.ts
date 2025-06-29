@@ -6,7 +6,7 @@ export class Url extends AbstractRule {
   private urlRegex = /^(https?:\/\/)?[\w-]+(\.[\w-]+)+[/#?]?.*$/;
 
   validate(value: any): boolean {
-    if (value === null || value === "") return false;
+    if (value === null || value === "") return true;
 
     return typeof value === "string" && this.urlRegex.test(value);
   }

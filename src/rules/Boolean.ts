@@ -7,7 +7,7 @@ export class Boolean extends AbstractRule {
   private falseVals = [false, "false", 0, "0", "no", "off"];
 
   validate(value: any): boolean {
-    if (value === null || value === "") return false;
+    if (value === null || value === "") return true;
 
     return this.trueVals.includes(value) || this.falseVals.includes(value);
   }
